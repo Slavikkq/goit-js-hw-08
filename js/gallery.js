@@ -64,40 +64,46 @@ const gallery = [
   },
 ];
 
+
 const container = document.querySelector(".gallery");
 
 container.innerHTML = gallery.reduce(
   (html, item) =>
     html +
     `
-  <li class="gallery-item">
-    <a class="gallery-link" href="${item.original}" onclick="return false;">
-      <img
-        class="gallery-image"
-        src="${item.preview}"
-        data-source="${item.original}"
-        alt="${item.description}"
-        width = 360px;
-        height = 200px;
-      />
-    </a>
-  </li>
+<li class="gallery-item">
+  <a class="gallery-link" href="${item.original}" onclick="return false;">
+    <img
+      class="gallery-image"
+      src="${item.preview}"
+      data-source="${item.original}"
+      alt="${item.description}"
+      width="360"
+      height="200"
+    />
+  </a>
+</li>
 `,
   ""
 );
+
 container.addEventListener("click", onImageClick);
-function onImageClick(Event) {
-  if (Event.target.nodeName !== "IMG") {
+
+function onImageClick(event) {
+  if (event.target.nodeName !== "IMG") {
     return;
   }
   const instance = basicLightbox.create(`
-    <img src="${Event.target.dataset.source}" width="800" height="600">
+  <img src="${event.target.dataset.source}" width="800" height="600">
 `);
 
   instance.show();
-  container.addEventListener("keydown", (Event) => {
-    if (Event.code === "Escape") {
+  window.addEventListener("keydown", onKeyPress);
+
+  function onKeyPress(event) {
+    if (event.code === "Escape") {
       instance.close();
+      window.removeEventListener("keydown", onKeyPress);
     }
-  });
+  }
 }
