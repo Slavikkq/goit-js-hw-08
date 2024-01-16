@@ -70,20 +70,19 @@ const container = document.querySelector(".gallery");
 container.innerHTML = gallery.reduce(
   (html, item) =>
     html +
-    `
-<li class="gallery-item">
-  <a class="gallery-link" href="${item.original}" onclick="return false;">
-    <img
-      class="gallery-image"
-      src="${item.preview}"
-      data-source="${item.original}"
-      alt="${item.description}"
-      width="360"
-      height="200"
-    />
-  </a>
-</li>
-`,
+    `<li class="gallery-item">
+      <a class="gallery-link" href="${item.original}">
+        <img
+          class="gallery-image"
+          src="${item.preview}"
+          data-source="${item.original}"
+          alt="${item.description}"
+          width="360"
+          height="200"
+          onclick="return false"
+        />
+      </a>
+    </li>`,
   ""
 );
 
@@ -93,11 +92,10 @@ function onImageClick(event) {
   if (event.target.nodeName !== "IMG") {
     return;
   }
-  const instance = basicLightbox.create(`
-  <img src="${event.target.dataset.source}" width="800" height="600">
-`);
 
-  instance.show();
+  const instance = basicLightbox.create(`
+    <img src="${event.target.dataset.source}" width="800" height="600">
+  `);instance.show();
   window.addEventListener("keydown", onKeyPress);
 
   function onKeyPress(event) {
