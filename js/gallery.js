@@ -96,26 +96,25 @@ function onImageClick(event) {
 
   event.preventDefault();
 
-  const instance = basicLightbox.create(
+  const myModal = basicLightbox.create(
     `<img src="${clickedImage.dataset.source}" width="800" height="600">`,
-    {
-      onShow: (instance) => {
-        console.log("Lightbox is about to show");
-      },
-      onClose: (instance) => {
-        console.log("Lightbox is about to close");
-      },
-    }
+     {onShow: () => {
+      document.addEventListener('keydown', onEscapeKeyPress);
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', onEscapeKeyPress);
+    }}
+    
   );
 
-  instance.show();
 
-  const onKeyPress = (event) => {
+  const onEscapeKeyPress = (event) => {
     if (event.code === "Escape") {
-      instance.close();
-      window.removeEventListener("keydown", onKeyPress);
+    myModal.close();
     }
   };
 
-  window.addEventListener("keydown", onKeyPress);
+  window.addEventListener("keydown", onEscapeKeyPress);
+
+  myModal.show();
 }
